@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CustomViewsAndAnimations</string>
+    <string name="version_name">Version Name : %sv</string>
+    <string name="error_version_name">Can not get the version name :(</string>
 </resources>
