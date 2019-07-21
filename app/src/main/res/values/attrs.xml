@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <declare-styleable name="PizzaView">
         <attr name="num_slices" format="integer"/>
         <attr name="stroke_width" format="dimension"/>
         <attr name="color" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="NumberOfPizzasView">
+        <attr name="pizza_size" format="enum">
+            <enum name="small" value="0"/>
+            <enum name="medium" value="1"/>
+            <enum name="large" value="2"/>
+        </attr>
+        <attr name="pizza_color" format="color"/>
+    </declare-styleable>
+
 </resources>

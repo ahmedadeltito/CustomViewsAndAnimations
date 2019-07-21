@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
+import com.egdroid.customviewsandanimations.PizzaSize
 import com.egdroid.customviewsandanimations.R
 import kotlin.math.min
 
@@ -22,7 +23,7 @@ class PizzaView : View {
 
     private lateinit var paint: Paint
 
-    private var numSlices = 4
+    private var numOfSlices = 4
     private var color = Color.BLACK
     private var strokeWidth = 4
 
@@ -55,11 +56,11 @@ class PizzaView : View {
             color = array.getColor(
                 R.styleable.PizzaView_color, color
             )
-            numSlices = array.getInt(
-                R.styleable.PizzaView_num_slices, numSlices
+            numOfSlices = array.getInt(
+                R.styleable.PizzaView_num_slices, numOfSlices
             )
-            if (numSlices !in slicesRange)
-                numSlices = 4
+            if (numOfSlices !in slicesRange)
+                numOfSlices = 4
 
             array.recycle()
         }
@@ -85,15 +86,30 @@ class PizzaView : View {
     }
 
     private fun drawPizzaCuts(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
-        val degrees = 360f / numSlices
+        val degrees = 360f / numOfSlices
 
         canvas.save()
 
-        for (i in 0 until numSlices) {
+        for (index in 0 until numOfSlices) {
             canvas.rotate(degrees, cx, cy)
             canvas.drawLine(cx, cy, cx, cy - radius, paint)
         }
 
         canvas.restore()
+    }
+
+    fun setPizzaSize(pizzaSize: PizzaSize?) {
+        numOfSlices = when (pizzaSize) {
+            PizzaSize.SMALL -> 4
+            PizzaSize.MEDIUM -> 6
+            PizzaSize.LARGE -> 8
+            else -> 4
+        }
+        invalidate()
+    }
+
+    fun setPizzaColor(pizzaColor: Int) {
+        color = pizzaColor
+        paint.color = color
     }
 }

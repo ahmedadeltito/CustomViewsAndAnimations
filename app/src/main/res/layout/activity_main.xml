@@ -5,7 +5,40 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         tools:context=".MainActivity">
+
+    <com.egdroid.customviewsandanimations.widget.NumberOfPizzasView
+            android:id="@+id/small_number_of_pizza_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/version_name_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:pizza_size="small"
+            app:pizza_color="@color/red"/>
+
+    <com.egdroid.customviewsandanimations.widget.NumberOfPizzasView
+            android:id="@+id/medium_number_of_pizza_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/version_name_tv"
+            app:layout_constraintStart_toEndOf="@id/small_number_of_pizza_view"
+            app:layout_constraintEnd_toStartOf="@id/large_number_of_pizza_view"
+            app:pizza_size="medium"
+            app:pizza_color="@color/green"/>
+
+    <com.egdroid.customviewsandanimations.widget.NumberOfPizzasView
+            android:id="@+id/large_number_of_pizza_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/version_name_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:pizza_size="large"
+            app:pizza_color="@color/blue"/>
 
     <com.egdroid.customviewsandanimations.widget.VersionNameTextView
             android:id="@+id/version_name_tv"
