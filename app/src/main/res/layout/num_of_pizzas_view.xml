@@ -13,7 +13,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:color="@color/red"
-            app:stroke_width="4dp"
+            app:stroke_width="3dp"
             app:num_slices="4"/>
 
     <TextView

@@ -1,9 +1,7 @@
 package com.egdroid.customviewsandanimations.widget
 
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import com.egdroid.customviewsandanimations.PizzaSize
@@ -22,6 +20,7 @@ import kotlin.math.min
 class PizzaView : View {
 
     private lateinit var paint: Paint
+    private lateinit var pepperoniPizzaBitmap: Bitmap
 
     private var numOfSlices = 4
     private var color = Color.BLACK
@@ -69,6 +68,11 @@ class PizzaView : View {
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = strokeWidth.toFloat()
         paint.color = color
+
+        pepperoniPizzaBitmap = BitmapFactory.decodeResource(resources, R.drawable.pepperoni_pizza)
+        post {
+            pepperoniPizzaBitmap = Bitmap.createScaledBitmap(pepperoniPizzaBitmap, width, height, false)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -80,6 +84,8 @@ class PizzaView : View {
 
         val diameter = min(width, height) - paint.strokeWidth
         val radius = diameter / 2
+
+        canvas.drawBitmap(pepperoniPizzaBitmap, 0F, 0F, null)
 
         canvas.drawCircle(cx, cy, radius, paint)
         drawPizzaCuts(canvas, cx, cy, radius)

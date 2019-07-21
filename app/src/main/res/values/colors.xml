@@ -4,9 +4,10 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <color name="red">#EF9A9A</color>
-    <color name="green">#A5D6A7</color>
-    <color name="blue">#90CAF9</color>
+    <color name="red">#80DA1717</color>
+    <color name="green">#800E9B14</color>
+    <color name="blue">#801331DF</color>
+
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
 
