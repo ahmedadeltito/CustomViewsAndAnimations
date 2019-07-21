@@ -12,4 +12,8 @@
     <string name="medium">Medium</string>
     <string name="large">Large</string>
 
+    <string name="small_pizza">4 Slices for 1 ~ 2 People</string>
+    <string name="medium_pizza">6 Slices for 2 ~ 3 People</string>
+    <string name="large_pizza">8 Slices for 3 ~ 4 People</string>
+
 </resources>

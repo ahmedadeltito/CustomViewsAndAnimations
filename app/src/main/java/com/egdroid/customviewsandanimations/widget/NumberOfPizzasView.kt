@@ -70,7 +70,6 @@ class NumberOfPizzasView : ConstraintLayout {
         }
 
         pizzaView?.setPizzaSize(pizzaSize)
-        pizzaView?.setPizzaColor(pizzaColor)
 
         updateView()
 

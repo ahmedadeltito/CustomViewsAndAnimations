@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.egdroid.customviewsandanimations.PizzaSize
 import com.egdroid.customviewsandanimations.R
 import kotlin.math.min
@@ -20,6 +21,8 @@ import kotlin.math.min
 class PizzaView : View {
 
     private lateinit var paint: Paint
+    private lateinit var imagePaint: Paint
+
     private lateinit var pepperoniPizzaBitmap: Bitmap
 
     private var numOfSlices = 4
@@ -69,10 +72,16 @@ class PizzaView : View {
         paint.strokeWidth = strokeWidth.toFloat()
         paint.color = color
 
-        pepperoniPizzaBitmap = BitmapFactory.decodeResource(resources, R.drawable.pepperoni_pizza)
-        post {
-            pepperoniPizzaBitmap = Bitmap.createScaledBitmap(pepperoniPizzaBitmap, width, height, false)
-        }
+        imagePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        pepperoniPizzaBitmap = Bitmap.createScaledBitmap(
+            BitmapFactory.decodeResource(resources, R.drawable.pepperoni_pizza),
+            w,
+            h,
+            false
+        )
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -85,7 +94,7 @@ class PizzaView : View {
         val diameter = min(width, height) - paint.strokeWidth
         val radius = diameter / 2
 
-        canvas.drawBitmap(pepperoniPizzaBitmap, 0F, 0F, null)
+        canvas.drawBitmap(pepperoniPizzaBitmap, 0F, 0F, imagePaint)
 
         canvas.drawCircle(cx, cy, radius, paint)
         drawPizzaCuts(canvas, cx, cy, radius)
@@ -106,15 +115,24 @@ class PizzaView : View {
 
     fun setPizzaSize(pizzaSize: PizzaSize?) {
         numOfSlices = when (pizzaSize) {
-            PizzaSize.SMALL -> 4
-            PizzaSize.MEDIUM -> 6
-            PizzaSize.LARGE -> 8
+            PizzaSize.SMALL -> {
+                setPizzaColor(ContextCompat.getColor(context, R.color.red))
+                4
+            }
+            PizzaSize.MEDIUM -> {
+                setPizzaColor(ContextCompat.getColor(context, R.color.green))
+                6
+            }
+            PizzaSize.LARGE -> {
+                setPizzaColor(ContextCompat.getColor(context, R.color.blue))
+                8
+            }
             else -> 4
         }
         invalidate()
     }
 
-    fun setPizzaColor(pizzaColor: Int) {
+    private fun setPizzaColor(pizzaColor: Int) {
         color = pizzaColor
         paint.color = color
     }

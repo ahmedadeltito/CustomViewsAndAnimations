@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.egdroid.customviewsandanimations.widget.PizzaListItem
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    <com.egdroid.customviewsandanimations.widget.PizzaView
+            android:id="@+id/pizza_list_item_icon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="16dp"
+            app:color="@color/red"
+            app:stroke_width="3dp"
+            app:num_slices="4"/>
+
+    <TextView
+            android:id="@+id/pizza_list_item_title_tv"
+            style="@style/PizzaSizeStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="10dp"
+            tools:text="Pizza Size"/>
+
+    <TextView
+            android:id="@+id/pizza_list_item_subtitle_tv"
+            style="@style/PizzaSizeStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Pizza Description"/>
+
+</com.egdroid.customviewsandanimations.widget.PizzaListItem>
