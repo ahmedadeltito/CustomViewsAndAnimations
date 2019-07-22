@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools">
-
-    <com.egdroid.customviewsandanimations.widget.PizzaView
-            android:id="@+id/pizza_view"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:color="@color/red"
-            app:stroke_width="3dp"
-            app:num_slices="4"/>
-
-    <TextView
-            android:id="@+id/pizza_size_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            style="@style/PizzaSizeStyle"
-            app:layout_constraintStart_toStartOf="@id/pizza_view"
-            app:layout_constraintEnd_toEndOf="@id/pizza_view"
-            app:layout_constraintTop_toBottomOf="@id/pizza_view"
-            tools:text="Medium"/>
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
     <Button
             android:id="@+id/decrement_num_of_pizzas_btn"
@@ -33,9 +12,8 @@
             android:layout_height="30dp"
             android:text="@string/minus"
             android:background="@drawable/transparent_bg_bordered"
-            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pizza_size_tv"
             app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
@@ -44,8 +22,7 @@
             android:layout_height="30dp"
             android:text="@string/plus"
             android:background="@drawable/transparent_bg_bordered"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/pizza_size_tv"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -63,4 +40,4 @@
             app:layout_constraintEnd_toStartOf="@id/increment_num_of_pizzas_btn"
             tools:text="2"/>
 
-</merge>
+</androidx.constraintlayout.widget.ConstraintLayout>

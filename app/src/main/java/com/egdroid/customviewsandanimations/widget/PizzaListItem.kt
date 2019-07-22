@@ -21,8 +21,11 @@ class PizzaListItem @JvmOverloads constructor(
     private lateinit var pizzaView: PizzaView
     private lateinit var pizzaTitleTv: TextView
     private lateinit var pizzaSubtitleTv: TextView
+    private lateinit var numOfPizzasView: NumberOfPizzasView
 
     private var pizzaSize: PizzaSize = PizzaSize.SMALL
+
+    var onPizzaListItemClickedListener: OnPizzaListItemClickedListener? = null
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -30,6 +33,11 @@ class PizzaListItem @JvmOverloads constructor(
         pizzaView = findViewById(R.id.pizza_list_item_icon)
         pizzaTitleTv = findViewById(R.id.pizza_list_item_title_tv)
         pizzaSubtitleTv = findViewById(R.id.pizza_list_item_subtitle_tv)
+        numOfPizzasView = findViewById(R.id.number_of_pizzas_view)
+
+        pizzaView.setOnClickListener {
+            onPizzaListItemClickedListener?.setOnPizzaViewClicked(pizzaView)
+        }
 
         updatePizzaSize()
 
@@ -80,8 +88,18 @@ class PizzaListItem @JvmOverloads constructor(
         val subtitleHeightUsed =
             pizzaSubtitleTv.measuredHeight + marginLayoutParams.topMargin + marginLayoutParams.bottomMargin
 
+        measureChildWithMargins(
+            numOfPizzasView, widthMeasureSpec, 0, heightMeasureSpec, pizzaViewHeightUsed
+        )
+        marginLayoutParams = numOfPizzasView.layoutParams as MarginLayoutParams
+        val numOfPizzasHeightUsed =
+            numOfPizzasView.measuredHeight + marginLayoutParams.topMargin + marginLayoutParams.bottomMargin
+
         val width = pizzaViewWidthUsed + max(titleWidthUsed, subtitleWidthUsed) + paddingLeft + paddingRight
-        val height = max(pizzaViewHeightUsed, titleHeightUsed + subtitleHeightUsed) + paddingTop + paddingBottom
+        val height = max(
+            pizzaViewHeightUsed,
+            titleHeightUsed + subtitleHeightUsed + numOfPizzasHeightUsed
+        ) + paddingTop + paddingBottom
 
         setMeasuredDimension(width, height)
 
@@ -117,6 +135,16 @@ class PizzaListItem @JvmOverloads constructor(
 
         pizzaSubtitleTv.layout(left, top, right, bottom)
 
+        val pizzaSubtitleBottomPlusMargin = bottom + pizzaSubtitleLayoutParams.bottomMargin
+
+        val numOfPizzasLayoutParams = numOfPizzasView.layoutParams as MarginLayoutParams
+        left = paddingLeft + numOfPizzasLayoutParams.leftMargin
+        top = pizzaSubtitleBottomPlusMargin + numOfPizzasLayoutParams.topMargin
+        right = left + numOfPizzasView.measuredWidth
+        bottom = top + numOfPizzasView.measuredHeight
+
+        numOfPizzasView.layout(left, top, right, bottom)
+
     }
 
     fun setPizzaSize(pizzaSize: PizzaSize) {
@@ -143,4 +171,8 @@ class PizzaListItem @JvmOverloads constructor(
         }
     }
 
+}
+
+interface OnPizzaListItemClickedListener {
+    fun setOnPizzaViewClicked(pizzaView: PizzaView)
 }

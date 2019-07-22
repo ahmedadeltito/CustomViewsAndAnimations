@@ -29,6 +29,7 @@ class PizzaView : View {
     private var color = Color.BLACK
     private var strokeWidth = 4
 
+    private var pizzaSize: PizzaSize? = null
     private val slicesRange = 4..8
 
     constructor(context: Context) : super(context) {
@@ -114,6 +115,7 @@ class PizzaView : View {
     }
 
     fun setPizzaSize(pizzaSize: PizzaSize?) {
+        this.pizzaSize = pizzaSize
         numOfSlices = when (pizzaSize) {
             PizzaSize.SMALL -> {
                 setPizzaColor(ContextCompat.getColor(context, R.color.red))
@@ -131,6 +133,8 @@ class PizzaView : View {
         }
         invalidate()
     }
+
+    fun getPizzaSize() = pizzaSize
 
     private fun setPizzaColor(pizzaColor: Int) {
         color = pizzaColor

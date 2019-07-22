@@ -15,5 +15,9 @@
     <string name="small_pizza">4 Slices for 1 ~ 2 People</string>
     <string name="medium_pizza">6 Slices for 2 ~ 3 People</string>
     <string name="large_pizza">8 Slices for 3 ~ 4 People</string>
+    <string name="are_you_sure">Are you sure to buy only \n 5 pieces of pizzas? </string>
+    <string name="checkout">Checkout</string>
+    <string name="yes_i_am_sure">Yes, I am sure.</string>
+    <string name="no_buy_more">No, let\'s buy more</string>
 
 </resources>
