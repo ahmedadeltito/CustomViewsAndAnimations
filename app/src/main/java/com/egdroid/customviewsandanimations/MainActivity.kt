@@ -1,25 +1,21 @@
 package com.egdroid.customviewsandanimations
 
-import android.animation.*
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.Button
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import com.egdroid.customviewsandanimations.extensions.getPositionOnScreen
-import com.egdroid.customviewsandanimations.widget.OnPizzaListItemClickedListener
+import com.egdroid.customviewsandanimations.extensions.*
 import com.egdroid.customviewsandanimations.widget.PizzaListItem
+import com.egdroid.customviewsandanimations.widget.PizzaListItemClickedListener
 import com.egdroid.customviewsandanimations.widget.PizzaView
+import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
 
-    private val parentLayout by lazy {
-        findViewById<ConstraintLayout>(R.id.activity_main_parent_view)
-    }
     private val smallPizzaListItem by lazy {
         findViewById<PizzaListItem>(R.id.small_pizza_list_item)
     }
@@ -29,25 +25,8 @@ class MainActivity : AppCompatActivity() {
     private val largePizzaListItem by lazy {
         findViewById<PizzaListItem>(R.id.large_pizza_list_item)
     }
-    private val shoppingCartIv by lazy {
-        findViewById<ImageView>(R.id.shopping_cart_iv)
-    }
-    private val shoppingCartCounterParentView by lazy {
-        findViewById<FrameLayout>(R.id.shopping_cart_counter_parent_view)
-    }
-    private val shoppingCartCounterTv by lazy {
-        findViewById<TextView>(R.id.shopping_cart_counter_tv)
-    }
-    private val areYouSureParentView by lazy {
-        findViewById<ConstraintLayout>(R.id.are_you_sure_view)
-    }
-    private val checkoutBtn by lazy {
-        findViewById<Button>(R.id.checkout_btn)
-    }
-    private val noBtn by lazy {
-        findViewById<Button>(R.id.no_btn)
-    }
 
+    private var numOfPizzas = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,113 +36,34 @@ class MainActivity : AppCompatActivity() {
         mediumPizzaListItem.setPizzaSize(PizzaSize.MEDIUM)
         largePizzaListItem.setPizzaSize(PizzaSize.LARGE)
 
-        smallPizzaListItem.onPizzaListItemClickedListener = object : OnPizzaListItemClickedListener {
-            override fun setOnPizzaViewClicked(pizzaView: PizzaView) {
+        smallPizzaListItem.setOnPizzaListItemClickedListener = this
+        mediumPizzaListItem.setOnPizzaListItemClickedListener = this
+        largePizzaListItem.setOnPizzaListItemClickedListener = this
 
-                val pizzaViewPosition = pizzaView.getPositionOnScreen()
-                val shoppingCartPosition = shoppingCartIv.getPositionOnScreen()
-
-                val pizzaViewToAnimate = setupPizzaViewToAnimate(pizzaView)
-                parentLayout.addView(pizzaViewToAnimate)
-
-                val xAnimator = objectAnimator(
-                    viewToAnimate = pizzaViewToAnimate,
-                    propertyName = "translationX",
-                    startValue = pizzaViewPosition[0].toFloat(),
-                    endValue = shoppingCartPosition[0].toFloat()
-                )
-                val yAnimator = objectAnimator(
-                    viewToAnimate = pizzaViewToAnimate,
-                    propertyName = "translationY",
-                    startValue = pizzaViewPosition[1].toFloat(),
-                    endValue = shoppingCartPosition[1].toFloat()
-                )
-                val scaleDownX = ObjectAnimator.ofFloat(pizzaViewToAnimate, "scaleX", 0.5f)
-                val scaleDownY = ObjectAnimator.ofFloat(pizzaViewToAnimate, "scaleY", 0.5f)
-                val alphaAnimation = objectAnimator(
-                    viewToAnimate = pizzaViewToAnimate,
-                    propertyName = "alpha",
-                    startValue = 1F,
-                    endValue = 0F
-                )
-
-                AnimatorSet().apply {
-                    play(xAnimator).with(yAnimator).with(scaleDownX).with(scaleDownY).with(alphaAnimation)
-
-                    addListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            parentLayout.removeView(pizzaViewToAnimate)
-                        }
-                    })
-
-                    start()
-                }
-
-                shoppingCartCounterAnimatorSet().start()
-            }
+        checkout_btn.setOnClickListener {
+            animateAreYouSureView(isAnimatedToUp = true)
+        }
+        no_btn.setOnClickListener {
+            animateAreYouSureView(isAnimatedToUp = false)
         }
 
-        checkoutBtn.setOnClickListener {
-            areYouSureParentView.visibility = View.VISIBLE
-            objectAnimator(
-                viewToAnimate = areYouSureParentView,
-                propertyName = "translationY",
-                startValue = areYouSureParentView.height.toFloat(),
-                endValue = 0f
-            ).start()
-        }
-        noBtn.setOnClickListener {
-            areYouSureParentView.visibility = View.VISIBLE
-            objectAnimator(
-                viewToAnimate = areYouSureParentView,
-                propertyName = "translationY",
-                startValue = 0f,
-                endValue = areYouSureParentView.height.toFloat()
-            ).start()
-        }
-
+        checkoutBtnVisibility()
     }
 
-    private fun objectAnimator(
-        viewToAnimate: View,
-        propertyName: String,
-        startValue: Float,
-        endValue: Float
-    ): ObjectAnimator {
-        return ObjectAnimator.ofFloat(
-            viewToAnimate,
-            propertyName,
-            startValue,
-            endValue
-        ).apply {
-            interpolator = AccelerateDecelerateInterpolator()
-            duration = 500
-        }
-    }
-
-    private fun shoppingCartCounterAnimatorSet(): AnimatorSet {
-        val shoppingCartAnimatorX = ObjectAnimator.ofFloat(
-            shoppingCartCounterParentView,
-            View.SCALE_X,
-            1F,
-            1.5F
-        )
-        shoppingCartAnimatorX.duration = 200L
-        shoppingCartAnimatorX.repeatCount = 1
-        shoppingCartAnimatorX.repeatMode = ValueAnimator.REVERSE
-        val shoppingCartAnimatorY = ObjectAnimator.ofFloat(
-            shoppingCartCounterParentView,
-            View.SCALE_Y,
-            1F,
-            1.5F
-        )
-        shoppingCartAnimatorY.duration = 200L
-        shoppingCartAnimatorY.repeatCount = 1
-        shoppingCartAnimatorY.repeatMode = ValueAnimator.REVERSE
-
-        return AnimatorSet().apply {
-            play(shoppingCartAnimatorX).with(shoppingCartAnimatorY)
-        }
+    private fun animateAreYouSureView(isAnimatedToUp: Boolean) {
+        are_you_sure_view.visibility = View.VISIBLE
+        are_you_sure_view.objectAnimator(
+            propertyName = "translationY",
+            durationToAnimate = ANIMATION_DURATION,
+            startValue = if (isAnimatedToUp)
+                are_you_sure_view.height.toFloat()
+            else
+                0F,
+            endValue = if (isAnimatedToUp)
+                0f
+            else
+                are_you_sure_view.height.toFloat()
+        ).start()
     }
 
     private fun setupPizzaViewToAnimate(pizzaView: PizzaView): PizzaView {
@@ -177,5 +77,129 @@ class MainActivity : AppCompatActivity() {
         pizzaViewToAnimate.setPizzaSize(pizzaSize = pizzaView.getPizzaSize())
 
         return pizzaViewToAnimate
+    }
+
+    private fun checkoutBtnVisibility() {
+        if (numOfPizzas > 0)
+            checkout_btn.visible()
+        else
+            checkout_btn.invisible()
+    }
+
+    override fun onPizzaViewClicked(pizzaView: PizzaView) {
+        pizzaView.rotateAnimation(context = this@MainActivity)
+    }
+
+    override fun pizzaStatus(pizzaView: PizzaView, pizzaStatus: PizzaStatus) {
+
+        val xAnimator: ObjectAnimator
+        val yAnimator: ObjectAnimator
+        val scaleDownX: ObjectAnimator
+        val scaleDownY: ObjectAnimator
+        val alphaAnimation: ObjectAnimator
+
+        val pizzaViewPosition = pizzaView.getPositionOnScreen()
+        val shoppingCartPosition = shopping_cart_iv.getPositionOnScreen()
+
+        val pizzaViewToAnimate = setupPizzaViewToAnimate(pizzaView)
+        activity_main_parent_view.addView(pizzaViewToAnimate)
+
+        when (pizzaStatus) {
+            PizzaStatus.INCREMENTED -> {
+                numOfPizzas = numOfPizzas.inc()
+
+                xAnimator = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "translationX",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = pizzaViewPosition[0].toFloat(),
+                    endValue = shoppingCartPosition[0].toFloat()
+                )
+                yAnimator = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "translationY",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = pizzaViewPosition[1].toFloat() - shopping_cart_iv.measuredHeight,
+                    endValue = shoppingCartPosition[1].toFloat() - shopping_cart_iv.measuredHeight
+                )
+
+                scaleDownX = ObjectAnimator.ofFloat(
+                    pizzaViewToAnimate,
+                    "scaleX",
+                    0.5f
+                )
+                scaleDownY = ObjectAnimator.ofFloat(
+                    pizzaViewToAnimate,
+                    "scaleY",
+                    0.5f
+                )
+
+                alphaAnimation = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "alpha",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = 1F,
+                    endValue = 0F
+                )
+            }
+            PizzaStatus.DECREMENTED -> {
+                numOfPizzas = numOfPizzas.dec()
+
+                xAnimator = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "translationX",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = shoppingCartPosition[0].toFloat(),
+                    endValue = pizzaViewPosition[0].toFloat()
+                )
+                yAnimator = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "translationY",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = shoppingCartPosition[1].toFloat() - shopping_cart_iv.measuredHeight,
+                    endValue = pizzaViewPosition[1].toFloat() - shopping_cart_iv.measuredHeight
+                )
+
+                scaleDownX = ObjectAnimator.ofFloat(
+                    pizzaViewToAnimate,
+                    "scaleX",
+                    1f
+                )
+                scaleDownY = ObjectAnimator.ofFloat(
+                    pizzaViewToAnimate,
+                    "scaleY",
+                    1f
+                )
+
+                alphaAnimation = pizzaViewToAnimate.objectAnimator(
+                    propertyName = "alpha",
+                    durationToAnimate = ANIMATION_DURATION,
+                    startValue = 0F,
+                    endValue = 1F
+                )
+            }
+        }
+
+        AnimatorSet().apply {
+            play(xAnimator).with(yAnimator).with(scaleDownX).with(scaleDownY).with(alphaAnimation)
+
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    activity_main_parent_view.removeView(pizzaViewToAnimate)
+                }
+            })
+
+            start()
+        }
+
+        if (numOfPizzas > 0) {
+            shopping_cart_counter_parent_view.visibility = View.VISIBLE
+            shopping_cart_counter_tv.text = numOfPizzas.toString()
+        } else {
+            shopping_cart_counter_parent_view.visibility = View.GONE
+        }
+
+        checkoutBtnVisibility()
+
+        shopping_cart_counter_parent_view.animateShoppingCart()
+    }
+
+    companion object {
+        const val ANIMATION_DURATION = 500L
     }
 }

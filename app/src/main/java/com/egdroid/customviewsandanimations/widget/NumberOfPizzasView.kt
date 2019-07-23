@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.widget.Button
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.egdroid.customviewsandanimations.PizzaStatus
 import com.egdroid.customviewsandanimations.R
 
 /**
@@ -19,7 +20,7 @@ class NumberOfPizzasView : ConstraintLayout {
 
     private var numOfPizzas = 0
 
-    var onNumberOfPizzasListener: OnNumberOfPizzasListener? = null
+    var setOnNumberOfPizzasListener: NumberOfPizzasListener? = null
 
     init {
         inflate(context, R.layout.num_of_pizzas_view, this)
@@ -41,10 +42,12 @@ class NumberOfPizzasView : ConstraintLayout {
         incrementBtn?.setOnClickListener {
             numOfPizzas++
             updateView()
+            setOnNumberOfPizzasListener?.pizzaStatus(PizzaStatus.INCREMENTED)
         }
         decrementBtn?.setOnClickListener {
             numOfPizzas--
             updateView()
+            setOnNumberOfPizzasListener?.pizzaStatus(PizzaStatus.DECREMENTED)
         }
 
         updateView()
@@ -52,7 +55,6 @@ class NumberOfPizzasView : ConstraintLayout {
     }
 
     private fun updateView() {
-        onNumberOfPizzasListener?.numberOfPizzas(numOfPizzas)
 
         when (numOfPizzas) {
             0 -> {
@@ -70,11 +72,10 @@ class NumberOfPizzasView : ConstraintLayout {
         }
 
         numOfPizzasTv?.text = numOfPizzas.toString()
-
     }
 
 }
 
-interface OnNumberOfPizzasListener {
-    fun numberOfPizzas(numOfPizzas: Int)
+interface NumberOfPizzasListener {
+    fun pizzaStatus(pizzaStatus: PizzaStatus)
 }

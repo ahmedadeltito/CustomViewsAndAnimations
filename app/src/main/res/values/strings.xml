@@ -19,5 +19,10 @@
     <string name="checkout">Checkout</string>
     <string name="yes_i_am_sure">Yes, I am sure.</string>
     <string name="no_buy_more">No, let\'s buy more</string>
+    <string name="pizza_details">Pepperoni is an American variety of salami,
+        made from cured pork and beef mixed together and seasoned with paprika or other chili pepper.
+        Pepperoni is characteristically soft, slightly smoky, and bright red in color.
+        Thinly sliced pepperoni is a popular pizza topping in American pizzerias.
+    </string>
 
 </resources>

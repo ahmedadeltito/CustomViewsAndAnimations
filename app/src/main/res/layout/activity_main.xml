@@ -73,16 +73,18 @@
             app:layout_constraintTop_toBottomOf="@id/checkout_btn"
             app:layout_constraintStart_toStartOf="@id/start_guideline"
             app:layout_constraintEnd_toEndOf="@id/end_guideline"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="ContentDescription"/>
 
     <FrameLayout
             android:id="@+id/shopping_cart_counter_parent_view"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@drawable/circle"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@id/shopping_cart_iv"
             app:layout_constraintTop_toTopOf="@id/shopping_cart_iv"
+            app:layout_constraintEnd_toStartOf="@id/shopping_cart_iv"
             tools:visibility="visible">
 
         <TextView

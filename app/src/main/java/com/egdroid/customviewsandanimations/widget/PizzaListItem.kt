@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.ViewGroup
 import android.widget.TextView
 import com.egdroid.customviewsandanimations.PizzaSize
+import com.egdroid.customviewsandanimations.PizzaStatus
 import com.egdroid.customviewsandanimations.R
 import kotlin.math.max
 
@@ -25,7 +26,7 @@ class PizzaListItem @JvmOverloads constructor(
 
     private var pizzaSize: PizzaSize = PizzaSize.SMALL
 
-    var onPizzaListItemClickedListener: OnPizzaListItemClickedListener? = null
+    var setOnPizzaListItemClickedListener: PizzaListItemClickedListener? = null
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -36,7 +37,15 @@ class PizzaListItem @JvmOverloads constructor(
         numOfPizzasView = findViewById(R.id.number_of_pizzas_view)
 
         pizzaView.setOnClickListener {
-            onPizzaListItemClickedListener?.setOnPizzaViewClicked(pizzaView)
+            setOnPizzaListItemClickedListener?.onPizzaViewClicked(pizzaView)
+        }
+        numOfPizzasView.setOnNumberOfPizzasListener = object : NumberOfPizzasListener {
+            override fun pizzaStatus(pizzaStatus: PizzaStatus) {
+                setOnPizzaListItemClickedListener?.pizzaStatus(
+                    pizzaStatus = pizzaStatus,
+                    pizzaView = pizzaView
+                )
+            }
         }
 
         updatePizzaSize()
@@ -173,6 +182,7 @@ class PizzaListItem @JvmOverloads constructor(
 
 }
 
-interface OnPizzaListItemClickedListener {
-    fun setOnPizzaViewClicked(pizzaView: PizzaView)
+interface PizzaListItemClickedListener {
+    fun onPizzaViewClicked(pizzaView: PizzaView)
+    fun pizzaStatus(pizzaView: PizzaView, pizzaStatus: PizzaStatus)
 }

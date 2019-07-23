@@ -76,11 +76,11 @@ class PizzaView : View {
         imagePaint = Paint(Paint.ANTI_ALIAS_FLAG)
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {
         pepperoniPizzaBitmap = Bitmap.createScaledBitmap(
             BitmapFactory.decodeResource(resources, R.drawable.pepperoni_pizza),
-            w,
-            h,
+            width,
+            height,
             false
         )
     }
