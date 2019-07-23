@@ -12,12 +12,15 @@
             android:id="@+id/pizza_details_icon"
             android:layout_width="200dp"
             android:layout_height="200dp"
+            android:transitionName="@string/pizza_view_transition_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:stroke_width="3dp"
+            tools:targetApi="lollipop"/>
 
     <TextView
-            android:id="@+id/pizza_title_tv"
+            android:id="@+id/pizza_details_title_tv"
             style="@style/PizzaSizeStyle"
             android:layout_width="0dp"
             android:gravity="center"
@@ -27,7 +30,8 @@
             app:layout_constraintTop_toBottomOf="@id/pizza_details_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Pizza Size"/>
+            tools:text="Pizza Size"
+            tools:targetApi="lollipop"/>
 
     <TextView
             android:id="@+id/pizza_description_tv"
@@ -39,7 +43,7 @@
             android:textSize="20sp"
             android:textStyle="normal"
             android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintTop_toBottomOf="@id/pizza_title_tv"
+            app:layout_constraintTop_toBottomOf="@id/pizza_details_title_tv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 

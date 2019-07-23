@@ -26,7 +26,7 @@ class PizzaView : View {
     private lateinit var pepperoniPizzaBitmap: Bitmap
 
     private var numOfSlices = 4
-    private var color = Color.BLACK
+    private var color = Color.YELLOW
     private var strokeWidth = 4
 
     private var pizzaSize: PizzaSize? = null
@@ -45,8 +45,6 @@ class PizzaView : View {
     }
 
     private fun init(context: Context, attrs: AttributeSet?) {
-        strokeWidth = 4
-        color = Color.YELLOW
 
         if (attrs != null) {
             val array = context.obtainStyledAttributes(
@@ -74,6 +72,7 @@ class PizzaView : View {
         paint.color = color
 
         imagePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+
     }
 
     override fun onSizeChanged(width: Int, height: Int, oldWidth: Int, oldHeight: Int) {

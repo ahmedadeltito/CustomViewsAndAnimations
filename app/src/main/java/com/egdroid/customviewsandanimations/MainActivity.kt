@@ -4,10 +4,14 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
+import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import com.egdroid.customviewsandanimations.extensions.*
 import com.egdroid.customviewsandanimations.widget.PizzaListItem
 import com.egdroid.customviewsandanimations.widget.PizzaListItemClickedListener
@@ -28,9 +32,13 @@ class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
 
     private var numOfPizzas = 0
 
+    private var isCheckout = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        yes_btn.setImageResource(R.drawable.ic_checkout)
 
         smallPizzaListItem.setPizzaSize(PizzaSize.SMALL)
         mediumPizzaListItem.setPizzaSize(PizzaSize.MEDIUM)
@@ -41,10 +49,24 @@ class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
         largePizzaListItem.setOnPizzaListItemClickedListener = this
 
         checkout_btn.setOnClickListener {
+            are_you_sure_tv.text = getString(R.string.are_you_sure, numOfPizzas.toString())
             animateAreYouSureView(isAnimatedToUp = true)
         }
         no_btn.setOnClickListener {
             animateAreYouSureView(isAnimatedToUp = false)
+            isCheckout = false
+            yes_btn.setImageResource(R.drawable.ic_checkout)
+        }
+        yes_btn.setOnClickListener {
+            if (!isCheckout) {
+                isCheckout = true
+                yes_btn.setImageResource(R.drawable.ic_checkout)
+            } else {
+                isCheckout = false
+                yes_btn.setImageResource(R.drawable.ic_checkout_reverse)
+            }
+            val animatable = yes_btn.drawable as Animatable
+            animatable.start()
         }
 
         checkoutBtnVisibility()
@@ -197,6 +219,25 @@ class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
         checkoutBtnVisibility()
 
         shopping_cart_counter_parent_view.animateShoppingCart()
+
+    }
+
+    override fun onPizzaTitleClicked(pizzaView: PizzaView, pizzaTitleTv: TextView) {
+        val pizzaViewPair = Pair.create(pizzaView as View, getString(R.string.pizza_view_transition_name))
+
+        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+            this@MainActivity,
+            pizzaViewPair
+        )
+        ActivityCompat.startActivity(
+            this@MainActivity,
+            PizzaDetailsActivity.startIntent(
+                context = this,
+                pizzaSize = pizzaView.getPizzaSize(),
+                pizzaTitle = pizzaTitleTv.text.toString()
+            ),
+            activityOptions.toBundle()
+        )
     }
 
     companion object {

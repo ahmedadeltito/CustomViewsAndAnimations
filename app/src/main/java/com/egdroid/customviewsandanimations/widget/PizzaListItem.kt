@@ -39,6 +39,14 @@ class PizzaListItem @JvmOverloads constructor(
         pizzaView.setOnClickListener {
             setOnPizzaListItemClickedListener?.onPizzaViewClicked(pizzaView)
         }
+
+        pizzaTitleTv.setOnClickListener {
+            setOnPizzaListItemClickedListener?.onPizzaTitleClicked(
+                pizzaView = pizzaView,
+                pizzaTitleTv = pizzaTitleTv
+            )
+        }
+
         numOfPizzasView.setOnNumberOfPizzasListener = object : NumberOfPizzasListener {
             override fun pizzaStatus(pizzaStatus: PizzaStatus) {
                 setOnPizzaListItemClickedListener?.pizzaStatus(
@@ -183,6 +191,7 @@ class PizzaListItem @JvmOverloads constructor(
 }
 
 interface PizzaListItemClickedListener {
+    fun onPizzaTitleClicked(pizzaView: PizzaView, pizzaTitleTv: TextView)
     fun onPizzaViewClicked(pizzaView: PizzaView)
     fun pizzaStatus(pizzaView: PizzaView, pizzaStatus: PizzaStatus)
 }
