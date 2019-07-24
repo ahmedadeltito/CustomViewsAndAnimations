@@ -65,7 +65,10 @@ class PizzaListItem @JvmOverloads constructor(
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
-        return MarginLayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+        return MarginLayoutParams(
+            LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT
+        )
     }
 
     override fun generateLayoutParams(p: LayoutParams?): LayoutParams {
@@ -73,7 +76,10 @@ class PizzaListItem @JvmOverloads constructor(
     }
 
     override fun generateLayoutParams(attrs: AttributeSet?): LayoutParams {
-        return MarginLayoutParams(context, attrs)
+        return MarginLayoutParams(
+            context,
+            attrs
+        )
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -112,7 +118,10 @@ class PizzaListItem @JvmOverloads constructor(
         val numOfPizzasHeightUsed =
             numOfPizzasView.measuredHeight + marginLayoutParams.topMargin + marginLayoutParams.bottomMargin
 
-        val width = pizzaViewWidthUsed + max(titleWidthUsed, subtitleWidthUsed) + paddingLeft + paddingRight
+        val width = pizzaViewWidthUsed + max(
+            titleWidthUsed,
+            subtitleWidthUsed
+        ) + paddingLeft + paddingRight
         val height = max(
             pizzaViewHeightUsed,
             titleHeightUsed + subtitleHeightUsed + numOfPizzasHeightUsed

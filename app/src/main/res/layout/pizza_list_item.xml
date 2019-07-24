@@ -25,8 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
             android:layout_marginBottom="10dp"
-            tools:text="Pizza Size"
-            tools:targetApi="lollipop"/>
+            tools:text="Pizza Size"/>
 
     <TextView
             android:id="@+id/pizza_list_item_subtitle_tv"

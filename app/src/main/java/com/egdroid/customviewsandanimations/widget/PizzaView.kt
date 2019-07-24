@@ -20,7 +20,7 @@ import kotlin.math.min
 
 class PizzaView : View {
 
-    private lateinit var paint: Paint
+    private lateinit var circlePaint: Paint
     private lateinit var imagePaint: Paint
 
     private lateinit var pepperoniPizzaBitmap: Bitmap
@@ -44,7 +44,10 @@ class PizzaView : View {
         init(context, attrs)
     }
 
-    private fun init(context: Context, attrs: AttributeSet?) {
+    private fun init(
+        context: Context,
+        attrs: AttributeSet?
+    ) {
 
         if (attrs != null) {
             val array = context.obtainStyledAttributes(
@@ -66,10 +69,10 @@ class PizzaView : View {
             array.recycle()
         }
 
-        paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = strokeWidth.toFloat()
-        paint.color = color
+        circlePaint = Paint(Paint.ANTI_ALIAS_FLAG)
+        circlePaint.style = Paint.Style.STROKE
+        circlePaint.strokeWidth = strokeWidth.toFloat()
+        circlePaint.color = color
 
         imagePaint = Paint(Paint.ANTI_ALIAS_FLAG)
 
@@ -88,16 +91,16 @@ class PizzaView : View {
         val width = width - paddingLeft - paddingRight
         val height = height - paddingTop - paddingBottom
 
-        val cx = width / 2F + paddingLeft
-        val cy = height / 2F + paddingTop
+        val circleX = width / 2F + paddingLeft
+        val cirlceY = height / 2F + paddingTop
 
-        val diameter = min(width, height) - paint.strokeWidth
+        val diameter = min(width, height) - circlePaint.strokeWidth
         val radius = diameter / 2
 
         canvas.drawBitmap(pepperoniPizzaBitmap, 0F, 0F, imagePaint)
 
-        canvas.drawCircle(cx, cy, radius, paint)
-        drawPizzaCuts(canvas, cx, cy, radius)
+        canvas.drawCircle(circleX, cirlceY, radius, circlePaint)
+        drawPizzaCuts(canvas, circleX, cirlceY, radius)
     }
 
     private fun drawPizzaCuts(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
@@ -107,7 +110,7 @@ class PizzaView : View {
 
         for (index in 0 until numOfSlices) {
             canvas.rotate(degrees, cx, cy)
-            canvas.drawLine(cx, cy, cx, cy - radius, paint)
+            canvas.drawLine(cx, cy, cx, cy - radius, circlePaint)
         }
 
         canvas.restore()
@@ -137,6 +140,6 @@ class PizzaView : View {
 
     private fun setPizzaColor(pizzaColor: Int) {
         color = pizzaColor
-        paint.color = color
+        circlePaint.color = color
     }
 }

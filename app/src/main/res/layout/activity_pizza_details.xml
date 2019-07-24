@@ -30,8 +30,7 @@
             app:layout_constraintTop_toBottomOf="@id/pizza_details_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="Pizza Size"
-            tools:targetApi="lollipop"/>
+            tools:text="Pizza Size"/>
 
     <TextView
             android:id="@+id/pizza_description_tv"

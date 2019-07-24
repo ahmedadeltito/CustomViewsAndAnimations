@@ -146,12 +146,12 @@ class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
                 scaleDownX = ObjectAnimator.ofFloat(
                     pizzaViewToAnimate,
                     "scaleX",
-                    0.5f
+                    0.5F
                 )
                 scaleDownY = ObjectAnimator.ofFloat(
                     pizzaViewToAnimate,
                     "scaleY",
-                    0.5f
+                    0.5F
                 )
 
                 alphaAnimation = pizzaViewToAnimate.objectAnimator(
@@ -180,12 +180,12 @@ class MainActivity : AppCompatActivity(), PizzaListItemClickedListener {
                 scaleDownX = ObjectAnimator.ofFloat(
                     pizzaViewToAnimate,
                     "scaleX",
-                    1f
+                    1F
                 )
                 scaleDownY = ObjectAnimator.ofFloat(
                     pizzaViewToAnimate,
                     "scaleY",
-                    1f
+                    1F
                 )
 
                 alphaAnimation = pizzaViewToAnimate.objectAnimator(
