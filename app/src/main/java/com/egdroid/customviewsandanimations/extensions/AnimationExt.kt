@@ -57,12 +57,17 @@ fun View.rotateAnimation(context: Context) {
 
 fun View.visible(animate: Boolean = true) {
     if (animate) {
-        animate().alpha(1f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationStart(animation: Animator) {
-                super.onAnimationStart(animation)
-                visibility = View.VISIBLE
-            }
-        })
+        animate()
+            .alpha(1f)
+            .setDuration(300)
+            .setListener(
+                object : AnimatorListenerAdapter() {
+                    override fun onAnimationStart(animation: Animator) {
+                        super.onAnimationStart(animation)
+                        visibility = View.VISIBLE
+                    }
+                }
+            )
     } else {
         visibility = View.VISIBLE
     }
@@ -70,12 +75,17 @@ fun View.visible(animate: Boolean = true) {
 
 fun View.invisible(animate: Boolean = true) {
     if (animate) {
-        animate().alpha(0f).setDuration(300).setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-                visibility = View.INVISIBLE
-            }
-        })
+        animate()
+            .alpha(0f)
+            .setDuration(300)
+            .setListener(
+                object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+                        visibility = View.INVISIBLE
+                    }
+                }
+            )
     } else {
         visibility = View.INVISIBLE
     }
